@@ -7,13 +7,13 @@
  */
 
 #import <UIKit/UIKit.h>
-#import <CoreLocation/CoreLocation.h>
+//#import <CoreLocation/CoreLocation.h>
 #import <UIKit/UINavigationController.h>
 #import "JSON/JSON.h"
 
-#import "Location.h"
-#import "Sound.h"
-#import "Contacts.h"
+//#import "Location.h"
+//#import "Sound.h"
+//#import "Contacts.h"
 #import "DebugConsole.h"
 //#import "Image.h"
 

@@ -9,7 +9,7 @@
 #import "PhoneGapDelegate.h"
 #import "PhoneGapViewController.h"
 #import <UIKit/UIKit.h>
-#import "Movie.h"
+//#import "Movie.h"
 #import "InvokedUrlCommand.h"
 
 @implementation PhoneGapDelegate
@@ -153,7 +153,7 @@ static NSString *gapVersion;
 #if __IPHONE_OS_VERSION_MIN_REQUIRED < 30000
     NSNumber *detectNumber         = [settings objectForKey:@"DetectPhoneNumber"];
 #endif
-    NSNumber *useLocation          = [settings objectForKey:@"UseLocation"];
+    //NSNumber *useLocation          = [settings objectForKey:@"UseLocation"];
     NSString *topActivityIndicator = [settings objectForKey:@"TopActivityIndicator"];
 	
 	
@@ -198,7 +198,7 @@ static NSString *gapVersion;
 		
 	/*
 	 * Fire up the GPS Service right away as it takes a moment for data to come back.
-	 */
+	 
     if ([useLocation boolValue]) {
         [[self getCommandInstance:@"Location"] startLocation:nil withDict:nil];
     }

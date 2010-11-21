@@ -12,7 +12,7 @@
 
 @implementation Notification
 
-@synthesize loadingView;
+//@synthesize loadingView;
 
 - (void)alert:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
@@ -94,7 +94,7 @@
     UIApplication* app = [UIApplication sharedApplication];
     app.networkActivityIndicatorVisible = NO;
 }
-
+/*
 - (void)vibrate:(NSMutableArray*)arguments withDict:(NSMutableDictionary*)options
 {
 	AudioServicesPlaySystemSound(kSystemSoundID_Vibrate);
@@ -192,5 +192,5 @@
 		}
 	}
 }
-
+*/
 @end
