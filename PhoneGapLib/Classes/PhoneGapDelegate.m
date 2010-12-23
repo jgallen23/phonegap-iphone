@@ -163,10 +163,15 @@ static NSString *gapVersion;
 	// Set the supported orientations for rotation. If number of items in the array is > 1, autorotate is supported
     viewController.supportedOrientations = supportedOrientations;
 	
+	
 	CGRect screenBounds = [ [ UIScreen mainScreen ] bounds ];
 	self.window = [ [ [ UIWindow alloc ] initWithFrame:screenBounds ] autorelease ];
-	
-	webView = [ [ UIWebView alloc ] initWithFrame:screenBounds ];
+
+
+	window.autoresizesSubviews = YES;
+	CGRect webViewBounds = [ [ UIScreen mainScreen ] applicationFrame ] ;
+	webViewBounds.origin = screenBounds.origin;
+	webView = [ [ UIWebView alloc ] initWithFrame:webViewBounds];
     [webView setAutoresizingMask: (UIViewAutoresizingFlexibleWidth | UIViewAutoresizingFlexibleHeight) ];
 	
 	viewController.webView = webView;
@@ -213,7 +218,8 @@ static NSString *gapVersion;
 	if ([fileMgr createDirectoryAtPath:tmpDirectory withIntermediateDirectories: NO attributes: nil error: nil] == NO)
 	{
 		// might have failed because it already exists
-		if ( [fileMgr fileExistsAtPath:tmpDirectory] == NO ){
+		if ( [fileMgr fileExistsAtPath:tmpDirectory] == NO )
+		{
 			NSLog(@"Unable to create tmp directory");  // not much we can do it this fails
 		}
 	}
@@ -227,7 +233,14 @@ static NSString *gapVersion;
 	 * webView
 	 * This is where we define the inital instance of the browser (WebKit) and give it a starting url/file.
 	 */
-    NSURL *appURL        = [NSURL fileURLWithPath:[[self class] pathForResource:[[self class] startPage]]];
+	
+	NSString* startPage = [[self class] startPage];
+	NSURL *appURL = [NSURL URLWithString:startPage];
+	if(![appURL scheme])
+	{
+		appURL = [NSURL fileURLWithPath:[[self class] pathForResource:startPage]];
+	}
+	
     NSURLRequest *appReq = [NSURLRequest requestWithURL:appURL cachePolicy:NSURLRequestUseProtocolCachePolicy timeoutInterval:20.0];
 	[webView loadRequest:appReq];
 
@@ -445,20 +458,22 @@ static NSString *gapVersion;
 	}
     
     /*
-     * If a URL is being loaded that's a local file URL, just load it internally
+     * If a URL is being loaded that's a file/http/https URL, just load it internally
      */
-    else if ([url isFileURL])
+    else if ([url isFileURL] || 
+			 [[url scheme] isEqualToString:@"http"] || 
+			 [[url scheme] isEqualToString:@"https"])
     {
-        //NSLog(@"File URL %@", [url description]);
         return YES;
     }
     
     /*
-     * We don't have a PhoneGap or local file request, load it in the main Safari browser.
+     * We don't have a PhoneGap or web/local request, load it in the main Safari browser.
+	 * pass this to the application to handle.  Could be a mailto:dude@duderanch.com or a tel:55555555 or sms:55555555 facetime:55555555
      */
     else
     {
-        //NSLog(@"Unknown URL %@", [url description]);
+        NSLog(@"PhoneGapDelegate::shouldStartLoadWithRequest: Received Unhandled URL %@", url);
         [[UIApplication sharedApplication] openURL:url];
         return NO;
 	}
