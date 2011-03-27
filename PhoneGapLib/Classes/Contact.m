@@ -334,6 +334,7 @@ static NSDictionary*	com_phonegap_contacts_defaultFields = nil;
 	// iOS doesn't have preferredName- ignore
 	
 	// photo
+	/*
 	array = [aContact valueForKey: kW3ContactPhotos];
 	if ([array isKindOfClass:[NSArray class]]){
 		if (bUpdate && [array count] == 0){
@@ -352,6 +353,7 @@ static NSDictionary*	com_phonegap_contacts_defaultFields = nil;
 						NSURL* photoUrl = [NSURL URLWithString:value];
 						// caller is responsible for checking for a connection, if no connection this will fail
 						NSError* err = nil;
+						return
 						NSData* data = [NSData dataWithContentsOfURL:photoUrl options: NSDataReadingUncached error:&err];
 						if(data && [data length] > 0){
 							bSuccess = ABPersonSetImageData(person, (CFDataRef)data, &error);
@@ -365,7 +367,7 @@ static NSDictionary*	com_phonegap_contacts_defaultFields = nil;
 			}
 		}
 	}
-	 
+	*/
 		
 	// TODO WebURLs
 	
